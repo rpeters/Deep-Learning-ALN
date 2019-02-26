@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,10 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // alnio.cpp
-
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/alnio.cpp $
-//  $Workfile: alnio.cpp $
-//  $Revision: 15 $
-//  $Date: 8/18/07 4:27p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -55,7 +43,7 @@ static int ALNAPI DoALNRead(FILE* pFile, ALN** ppALN);
 // returns ALN_* error code, (ALN_NOERROR on success)
 ALNIMP int ALNAPI ALNWrite(const ALN* pALN, const char* pszFileName)
 {
-   // parameter validation
+   // parameter variance
   if (pALN == NULL)
     return ALN_GENERIC;
 
@@ -87,7 +75,7 @@ ALNIMP int ALNAPI ALNWrite(const ALN* pALN, const char* pszFileName)
 // returns ALN_* error code, (ALN_NOERROR on success)
 ALNIMP int ALNAPI ALNRead(const char* pszFileName, ALN** ppALN)
 {
-  // parameter validation
+  // parameter variance
   if (ppALN == NULL)
     return ALN_GENERIC;
 
@@ -374,8 +362,6 @@ static int ALNAPI WriteTree(FILE* pFile, const ALN* pALN, const ALNNODE* pNode)
     if ((int)fwrite(LFN_D(pNode), sizeof(double), LFN_VDIM(pNode), pFile)
           != LFN_VDIM(pNode)) return ALN_ERRFILE;
 
-		if ((int)fwrite(LFN_P(pNode), sizeof(double), LFN_VDIM(pNode), pFile)
-          != LFN_VDIM(pNode)) return ALN_ERRFILE;
 	}
   else
   {
@@ -471,14 +457,7 @@ static int ALNAPI ReadTree(FILE* pFile, ALN* pALN, ALNNODE* pNode)
 
     if ((int)fread(LFN_D(pNode), sizeof(double), LFN_VDIM(pNode), pFile)
           != LFN_VDIM(pNode)) return ALN_ERRFILE;
-
-    LFN_P(pNode) = (double*)malloc(LFN_VDIM(pNode) * sizeof(double));
-    if (LFN_P(pNode) == NULL)
-      return ALN_OUTOFMEM;
-
-    if ((int)fread(LFN_P(pNode), sizeof(double), LFN_VDIM(pNode), pFile)
-          != LFN_VDIM(pNode)) return ALN_ERRFILE;
-	}
+  }
   else
   {
     ASSERT(pNode->fNode & NF_MINMAX);

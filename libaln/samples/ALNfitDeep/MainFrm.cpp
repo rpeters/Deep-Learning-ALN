@@ -1,6 +1,6 @@
 // MainFrm.cpp : implementation of the CMainFrame class
 //
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -147,7 +147,7 @@ BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwS
 	// TODO: Add your specialized code here and/or call the base class
 
 	
-	return CWnd::Create(lpszClassName, "ALNfit Pro", dwStyle, rect, pParentWnd, nID, pContext);
+	return CWnd::Create(lpszClassName, "ALNfit Deep", dwStyle, rect, pParentWnd, nID, pContext);
 }
 
 

@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -23,17 +23,6 @@
 
 // calcdataendpoints.cpp
 
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/calcdataendpoints.cpp $
-//  $Workfile: calcdataendpoints.cpp $
-//  $Revision: 6 $
-//  $Date: 7/17/07 5:47p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
-
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
 #endif
@@ -46,7 +35,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-void ALNAPI CalcDataEndPoints(int& nStart, int& nEnd, const ALN* pALN,
+void ALNAPI CalcDataEndPoints(long& nStart, long& nEnd, const ALN* pALN,
                               const ALNDATAINFO* pDataInfo)
 {
   ASSERT(pALN);

@@ -1,5 +1,5 @@
 // ALN Library (libaln)
-// Copyright (C) 1995 - 2010 William W. Armstrong
+// Copyright (C) 2018 William W. Armstrong
 // file: alnextern.h
 // 
 // This library is free software; you can redistribute it and/or
@@ -25,26 +25,22 @@
 #include ".\cmyaln.h"
 #include "datafile.h"
 #define ALNAPI __stdcall
+
 // functions used externally
 void ALNAPI ALNfitSetup();  // sets up automatic noise measurement, bagging and evaluation
-	// including setting up the necessary files
-int ALNAPI analyzeinputfile(char * szDataFileName, int * nHeaderLines, long * nrows, int * ncols, BOOL bPrint);
-	// Analyzes the given input data file 
-void ALNAPI preprocUniversalFile(); // The universal file is the original dataset and can be preprocessed
-void ALNAPI createTVALNinputTestFiles();	// The PreprocessedDataFile is used to create TV (training only) and TS files, which are written out..
+int ALNAPI analyzeInputFile(char * szDataFileName, int * nHeaderLines, long * nrows, int * ncols, BOOL bPrint);	// Analyzes the given input data file 
 void ALNAPI analyzeTV();	// Computes the standard deviations of the variables in the TVset.
 void ALNAPI getTVfile();	// The TVfile created from the PreprocessedDataFile is read in
-void ALNAPI getALNinputTestFile();	// The ALNinputTestFile created from the PreprocessedDataFile is read in 
-void ALNAPI createTrainValfiles();	// creates training and validation files (several times for bagging)
-void ALNAPI dolinearregression();	// This does a truncated linear regression fit to get an upper bound on noise
-void ALNAPI approximate();	// This creates the final approximant using the weight bounds found above
+void ALNAPI getTSfile();	// The TSfile created from the PreprocessedDataFile is read in 
+void ALNAPI doLinearRegression();	// This does a truncated linear regression fit to get an upper bound on noise
+void ALNAPI createNoiseVarianceFile(); // Creates samples estimating the noise variance.
+//void ALNAPI trainNoiseVarianceALN(); // Trains on the noise variance samples to smooth them.
+void ALNAPI approximate();	// This creates one or more approximant ALNs using the weight bounds found above.  These are averaged in bagging later.
 void ALNAPI reportFunctions();	// reports on the trained function ALNs with stats and plots
 void ALNAPI evaluate();	// Evaluate an existing DTREE on the data file after preprocessing
 void ALNAPI cleanup();	// destroys allocated items no longer needed
-void ALNAPI outputtrainingresults();	// outputs the results of training
-void ALNAPI validate(CMyAln * pALN);// computes the error of the ALN on samples not used in training
-void ALNAPI onealnfit();	// overtrains a single ALN to help obtain an estimate of the level of noise in the data
-void ALNAPI trainaverage();	// trains an average of several smoothed ALNs (i.e. with fillets)
+void ALNAPI outputTrainingResults();	// outputs the results of training
+void ALNAPI trainAverage();	// trains an average of several smoothed ALNs (i.e. with fillets)
 void ALNAPI constructDTREE(int);	// constructs a DTREE from the average ALN from bagging
 int ALNAPI analyzeauxiliaryfile(char * szAuxiliaryFileName, int * pAuxheaderlines, long * pAuxrows, int * pAuxcols, BOOL bPrint);
 void ALNAPI MakeAuxNumericalFile(char * szAuxiliaryFileName,int nHeaderLinesAuxiliary,long nAuxRows, int nAuxCols, CDataFile & AuxNumericalFile);
@@ -64,27 +60,16 @@ extern int nDTREEDepth; // level of partitioning of the input space to make a DT
 extern double dblEvalRMSError;
 extern int nEvalMisclassifications;
 extern double dblEvalMisclassificationPercent;
-extern void fillvector(double *, CMyAln*); // inputs a training data vector, perhaps by averaging several ALNs
-	// this callback routine allows users to get reports of results during training
+extern void fillvector(double *, CMyAln*); // inputs a training data vector, which can be obtained by averaging several ALNs in bagging
 extern CDataFile AuxALNinputFile;
-extern CDataFile NumericalTestFile;  // These CDataFiles are for preprocessing the test and validation files
-extern long nRowsNumericalTestFile;
-extern int nColsNumericalTestFile;
-extern CDataFile ALNinputTestFile;
-extern long nRowsALNinputTestFile;
-extern CDataFile NumericalValFile;
-extern long nRowsNumericalValFile;
-extern int nColsNumericalValFile;
-extern CDataFile ALNinputValFile;
-extern long  nRowsALNinputValFile;
-extern double dblSetTolerance;
-extern double dblTolerance;   // The output tolerance below which a piece will not split
-extern BOOL bEstimateRMSError; // if TRUE we use a onealnfit to estimate RMS error which needs a validation set
-extern double  dblValidationErr;    // Set equal to the rmse in the validation step
-extern double  dblSmoothingFraction; // When smoothing is done at approximation and later, this is the fraction of tolerance used
+extern CDataFile TSfile; // the test file with data that have not been used in training
+extern long nRowsTS;
+extern double dblSetTolerance; // This used to be for setting the noise variance level when it was constant.  Now it is not used.
+extern BOOL bEstimateNoiseVariance; // if TRUE we create noise variance samples.
+extern double  dblVarianceErr;    // Set equal to the rmse in the variance step
 
-// variables used in the Pro version and viewed/set in a dialog
-// nDim is always the number of input variables plus one for the output
+// variables used and viewed or set in a dialog
+// nDim is always the number of ALN input variables plus one for the output
 // this is true even when an output column is missing from the data file.
 extern int nColsUniv;         // number of columns in the universal file
 extern long nRowsUniv;    // number of rows in the universal file
@@ -94,10 +79,9 @@ extern char varname[101][32]; //space for datafile column names up to 31 charact
 extern int nheaderlineitems[10];  // this counts the number of fields read in each header line
 extern int nheaderlinewithvars;		//  this is the one of the last two headerlines with the variable names
 																	//  however if neither has the correct number of strings this is 10
-extern int nALNinputs;	// this is the number of input variables to the ALN, including the desired output
-												// the input variables of the ALNs are characterized by column numbers in the data file and associated delays
-extern int  nInputCol[101];	// the indeces of datafile columns serving as inputs to the ALNs (columns may be repeated)
-extern int  nLag[101]; // the number of rows back from the row of the outputthat a column is sampled
+extern int nALNinputs;	// this is the number of input variables to the ALN, including the desired output. Maybe not all columns are associated with ALN inputs.
+extern int  nInputCol[101];	// the indices of datafile columns serving as inputs to the ALNs (columns may be repeated)
+extern int  nLag[101]; // the number of rows back (i.e. higher up) from the current row of the output that a column is sampled
 extern double dblMax;  // maximum number allowed for weight
 extern double dblMaxWeight[101]; // the maximum weight a given input can have
 extern double dblMinWeight[101]; // the minimum weight a given input can have
@@ -111,17 +95,13 @@ extern char szProtocolFileName[256]; // Contains report of program actions; same
 extern char szR_or_E_FileName[256]; // Same as original data file, missing values replaced by DTREE or column added
 extern char szResultMessage[128];    // Contains a summary of results presented in the GUI
 extern FILE *fpOutput; 
-extern FILE *fpFileSetupProtocol;    // This protocol file records what happens as the data files are analyzed
+extern FILE *fpFileSetupProtocol;    // This protocol file records what happens as the data files are analyzed (can be examined during training by Notepad)
+
 // Parameters used externally
 extern int nPercentForTest;   // the percentage of the data file used for testing, between 0 and 50 percent
-extern BOOL bEstimateRMSError; // This is TRUE when the data file is split into several parts to determine
-                               // the RMS noise in the data.  First comes a test set, then a training set,
-                               // then a validation set of almost equal size to the test set.  
-extern int nMaxLag; // The maximum lag of any input is nMaxLag determined in
-                    // preprocUniversalFile. If test, training and validation sets are
-                    // specified, then the initial parts of each component must be
-                    // removed before use.  
-extern double dblFracTest;    // The fraction of the PreprocessedDataFile used for ALNinputTestFile (default 10%) if no separate test file.
+extern BOOL bEstimateNoiseVariance; // This is TRUE when the TVfile is split into two parts to determine the noise variance in the data. 
+extern int nMaxLag; // The maximum lag of any input determined in preprocUniversalFile.
+extern double dblFracTest;    // The fraction of the PreprocessedDataFile used for TSfile (default 10%) if no separate test file is provided.
 extern CDataFile OutputData;  // The result of evaluation with a column added for the DTREE output
-extern int nMessageNumber;
-extern int nPercentProgress;
+extern int nMessageNumber; // messages used in the Doc and View
+extern int nPercentProgress; // used for progress indicator

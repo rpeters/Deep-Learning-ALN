@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,10 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // alnconvertdtree.cpp
-
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/alnconvertdtree.cpp $
-//  $Workfile: alnconvertdtree.cpp $
-//  $Revision: 5 $
-//  $Date: 7/17/07 5:21p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -53,7 +41,7 @@ static char THIS_FILE[] = __FILE__;
 ALNIMP int ALNAPI ALNConvertDtree(const ALN* pALN, int nMaxDepth,
                                   DTREE** ppDtree)
 {
-  // parameter validation
+  // parameter variance
   if (pALN == NULL)
     return ALN_GENERIC;
 

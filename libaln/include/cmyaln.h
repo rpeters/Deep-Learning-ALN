@@ -9,10 +9,8 @@ extern "C" int _kbhit();
 extern "C" int _getch();
 extern FILE* fpProtocol;
 extern double dblTrainErr;
-extern int nNumberEpochs;
+extern int nMaxEpochs;
 extern int nNumberLFNs;
-
-
 
 class CMyAln;
 void fillvector(double *, CMyAln *);
@@ -45,14 +43,11 @@ class CMyAln : public CAln
 
   virtual BOOL OnEpochEnd(EPOCHINFO* pEpochInfo, void* pvData) 
   {
-    //cerr << "  Estimated RMSE: " << pEpochInfo->dblEstRMSErr <<
-    //  "\t" << pEpochInfo->nActiveLFNs << "/" << pEpochInfo->nLFNs <<endl;
-		if(pEpochInfo->nEpoch == (nNumberEpochs -1))
+		if(pEpochInfo->nEpoch == (nMaxEpochs -1))
 		{
       nNumberLFNs = pEpochInfo->nActiveLFNs;
-		  fprintf(fpProtocol,"Active/Total LFNs %d/%d\n",
-			        pEpochInfo->nActiveLFNs,pEpochInfo->nLFNs);
-			fflush(fpProtocol);
+		  fprintf(fpProtocol,"Estimated RMSE %f Active/Total LFNs %d/%d\n", pEpochInfo->dblEstRMSErr,
+			        pEpochInfo->nActiveLFNs, pEpochInfo->nLFNs);
 		}
 	  return TRUE;
   }

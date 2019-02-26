@@ -13,12 +13,6 @@
       <UniqueIdentifier>{7251a3ca-a133-4ad5-a66b-35fcb2c2bd45}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;fi;fd</Extensions>
     </Filter>
-    <Filter Include="Header Files\boost">
-      <UniqueIdentifier>{7fb65c8f-5215-4c18-a75f-0d4cd1d75cf5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\boost\config">
-      <UniqueIdentifier>{90a162c8-dc36-4a3a-8b2e-75010c4993a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Documentation">
       <UniqueIdentifier>{803a4729-0a51-46a2-9820-33125a779b98}</UniqueIdentifier>
       <Extensions>*.doc;*.txt</Extensions>
@@ -26,6 +20,12 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{26346dc5-a66e-4919-a95e-b6eb95297b21}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Header Files\boost">
+      <UniqueIdentifier>{46395483-4463-4996-a673-65ecdbc44562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\boost\config">
+      <UniqueIdentifier>{094ae7af-c80a-412b-afe8-21b7a98e4d22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +143,6 @@
     <ClCompile Include="..\src\fillinputvector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\findsplitlfn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\freecolumnbase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -162,9 +159,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\prepaln.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\resetcounters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\shuffle.cpp">
@@ -197,10 +191,10 @@
     <ClCompile Include="..\src\dtree\dtree.c">
       <Filter>Source Files\dtree</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\alnfitdeepsetup.cpp">
+    <ClCompile Include="..\src\adaptevalminmax.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\adaptevalminmax.cpp">
+    <ClCompile Include="..\src\alnfitdeepsetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -217,31 +211,16 @@
     <ClInclude Include="..\include\alndbg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\alnextern.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\alnintern.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\alnpp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\alnpriv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\alnver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\cmyaln.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\datafile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\dtree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\StdAfx.h">
+    <ClInclude Include="..\include\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\boost\config.hpp">
@@ -255,6 +234,21 @@
     </ClInclude>
     <ClInclude Include="..\include\boost\config\user.hpp">
       <Filter>Header Files\boost\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\alnpp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\datafile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\alnextern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\alnintern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cmyaln.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

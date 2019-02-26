@@ -9,13 +9,13 @@
 *.dep
 *.dll
 *.exe
-!ALNfitDeep.exe
 *.exp
 *.htm
 *.idb
 *.ilk
 *.in
 *.iobj
+*.ipch
 *.ipdb
 *.lib
 *.mak

@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -23,16 +23,6 @@
 
 // calcrmserror.cpp
 
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/alncalcrmserror.cpp $
-//  $Workfile: alncalcrmserror.cpp $
-//  $Revision: 8 $
-//  $Date: 8/18/07 2:51p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -95,7 +85,7 @@ double ALNAPI DoCalcRMSError(const ALN* pALN,
   DebugValidateALNDataInfo(pALN, pDataInfo, pCallbackInfo);
 #endif
 
-  int nStart, nEnd;
+  long nStart, nEnd;
   CalcDataEndPoints(nStart, nEnd, pALN, pDataInfo);
   
   double dblRMSError = -1.0;

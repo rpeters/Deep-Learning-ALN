@@ -24,7 +24,7 @@
     <ClInclude Include="..\include\alnpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\datafile.h">
+    <ClInclude Include="..\include\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

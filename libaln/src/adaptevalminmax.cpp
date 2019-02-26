@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,11 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // adaptevalminmax.cpp
 
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/adaptevalgate.cpp $
-//  $Workfile: adaptevalgate.cpp $
-//  $Revision: 8 $
-//  $Date: 8/18/07 4:27p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -51,18 +40,17 @@ static char THIS_FILE[] = __FILE__;
 //  - sets the distance, active and goal surfaces, and eval flag
 // NOTE: cutoff always passed on stack!
 
-double ALNAPI AdaptEvalMinMax(ALNNODE* pNode, ALN* pALN, const double* adblX,	CEvalCutoff cutoff, ALNNODE** ppActiveLFN)
+double ALNAPI AdaptEvalMinMax(ALNNODE* pNode, ALN* pALN, const double* adblX, CEvalCutoff cutoff, ALNNODE** ppActiveLFN)
 {
 	ASSERT(NODE_ISMINMAX(pNode));
 
 	// set node eval flags
-	NODE_FLAGS(pNode) |= NF_EVAL;
+ 	NODE_FLAGS(pNode) |= NF_EVAL;  //NODE_FLAGS(pNode) ((pNode)->fNode)
 	NODE_FLAGS(MINMAX_LEFT(pNode)) &= ~NF_EVAL;
-	NODE_FLAGS(MINMAX_RIGHT(pNode)) &= ~NF_EVAL;
-
+	NODE_FLAGS(MINMAX_RIGHT(pNode)) &= ~NF_EVAL;//((pNode)->DATA.MINMAX.CHILDREN.CHILDSEPARATE.pRightChild)
 	// set first child
 	ALNNODE* pChild0;
-	if (MINMAX_EVAL(pNode))
+	if (MINMAX_EVAL(pNode))    // ((pNode)->DATA.MINMAX.pEvalChild)
 		pChild0 = MINMAX_EVAL(pNode);
 	else
 		pChild0 = MINMAX_LEFT(pNode);
@@ -76,7 +64,7 @@ double ALNAPI AdaptEvalMinMax(ALNNODE* pNode, ALN* pALN, const double* adblX,	CE
 
 	// get reference to region for this node
 	ALNREGION& region = pALN->aRegions[NODE_REGION(pNode)];
-
+	/*
 	if (region.dbl4SE > 0.0) // if smoothing is used
 	{
 		// loosen cutoff constraint for children
@@ -84,22 +72,22 @@ double ALNAPI AdaptEvalMinMax(ALNNODE* pNode, ALN* pALN, const double* adblX,	CE
 			cutoff.dblMax -= region.dbl4SE;
 		else if (MINMAX_ISMIN(pNode) && cutoff.bMin)
 			cutoff.dblMin += region.dbl4SE;
-	}
-
+	} REMOVED THIS TO SEE WHAT HAPPENs
+	*/
 	// eval first child
 	ALNNODE* pActiveLFN0;
 	double dbl0 = AdaptEval(pChild0, pALN, adblX, cutoff, &pActiveLFN0);
-
+	/*
 	// see if we can cutoff...
-	if(Cutoff(dbl0, pNode, cutoff, region.dbl4SE))
+	if (Cutoff(dbl0, pNode, cutoff, region.dbl4SE))
 	{
 		*ppActiveLFN = pActiveLFN0;
 		MINMAX_ACTIVE(pNode) = pChild0;
 		NODE_DISTANCE(pNode) = dbl0;
 		MINMAX_RESPACTIVE(pNode) = 1.0;	 // we can't have < 1 without additional evaluation
-		return dbl0;
-	}
-
+		return dbl0;  
+	}   Removed the cutoff to see what happens
+	*/
 	// eval second child
 	ALNNODE* pActiveLFN1;
 	double dbl1 = AdaptEval(pChild1, pALN, adblX, cutoff, &pActiveLFN1);
@@ -108,10 +96,10 @@ double ALNAPI AdaptEvalMinMax(ALNNODE* pNode, ALN* pALN, const double* adblX,	CE
 	{
 		// calc active child, active child response, and distance
 		int nActive = CalcActiveChild(MINMAX_RESPACTIVE(pNode),
-		NODE_DISTANCE(pNode),
-		dbl0, dbl1, pNode,
-		region.dblSmoothEpsilon,
-		region.dbl4SE, region.dblOV16SE);
+			NODE_DISTANCE(pNode),
+			dbl0, dbl1, pNode,
+			region.dblSmoothEpsilon,
+			region.dbl4SE, region.dblOV16SE);
 
 		if (nActive == 0)
 		{

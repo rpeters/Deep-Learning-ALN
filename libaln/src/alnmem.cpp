@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,10 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // alnmem.cpp
-
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/alnmem.cpp $
-//  $Workfile: alnmem.cpp $
-//  $Revision: 14 $
-//  $Date: 8/18/07 4:27p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -128,9 +116,7 @@ ALNIMP ALN* ALNAPI ALNCreateALN(int nDim, int nOutput)
   LFN_W(pALN->pTree) = (double*)malloc((nDim + 1) * sizeof(double));
   LFN_C(pALN->pTree) = (double*)malloc(nDim * sizeof(double));
   LFN_D(pALN->pTree) = (double*)malloc(nDim * sizeof(double));
-	LFN_P(pALN->pTree) = (double*)malloc(nDim * sizeof(double));
-  if (LFN_W(pALN->pTree) == NULL || LFN_C(pALN->pTree) == NULL ||
-      LFN_D(pALN->pTree) == NULL || LFN_P(pALN->pTree) == NULL)
+  if (LFN_W(pALN->pTree) == NULL || LFN_C(pALN->pTree) == NULL || LFN_D(pALN->pTree) == NULL)
   {
     ALNDestroyALN(pALN);
     return NULL;
@@ -138,7 +124,6 @@ ALNIMP ALN* ALNAPI ALNCreateALN(int nDim, int nOutput)
   memset(LFN_W(pALN->pTree), 0, (nDim + 1) * sizeof(double));
   memset(LFN_C(pALN->pTree), 0, nDim * sizeof(double));
   memset(LFN_D(pALN->pTree), 0, nDim * sizeof(double));
-  memset(LFN_P(pALN->pTree), 0, nDim * sizeof(double));
   return pALN;
 }
 
@@ -165,8 +150,6 @@ int ALNAPI DestroyTree(ALNNODE* pTree)
     if (LFN_D(pTree) != NULL)
       free(LFN_D(pTree));
 
-		if (LFN_P(pTree) != NULL)
-      free(LFN_P(pTree));
 	}
   else
   {
@@ -340,7 +323,7 @@ ALNIMP int ALNAPI ALNAddRegion(ALN* pALN, int nParentRegion,
 //   - apLFNs = array of pointers to all LFN children created
 // LFN parent automatically converted to minmax (and vectors freed)
 // all new children are LFNs... vectors are automatically allocated, child
-//   parent regions are the same as the parent node
+// parent regions are the same as the parent node
 ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent, 
                              int nParentMinMaxType, int nLFNs,
                              ALNNODE** apLFNs)
@@ -400,9 +383,7 @@ ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent,
       LFN_W(pChild) = (double*)malloc((pALN->nDim + 1) * sizeof(double));
       LFN_C(pChild) = (double*)malloc(pALN->nDim * sizeof(double));
       LFN_D(pChild) = (double*)malloc(pALN->nDim * sizeof(double));
-      LFN_P(pChild) = (double*)malloc(pALN->nDim * sizeof(double));
-      if (LFN_W(pChild) == NULL || LFN_C(pChild) == NULL ||
-          LFN_D(pChild) == NULL || LFN_P(pChild) == NULL)
+      if (LFN_W(pChild) == NULL || LFN_C(pChild) == NULL ||  LFN_D(pChild) == NULL )
       {
         ThrowALNMemoryException();
       }
@@ -413,7 +394,7 @@ ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent,
         LFN_SPLIT(pChild) = (ALNLFNSPLIT*)malloc(sizeof(ALNLFNSPLIT));
         if (LFN_SPLIT(pChild) == NULL)
           ThrowALNMemoryException();
-
+		
         pChild->fNode |= LF_SPLIT;
         LFN_SPLIT_COUNT(pChild) = 0;
         LFN_SPLIT_SQERR(pChild) = 0.0;
@@ -423,12 +404,9 @@ ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent,
         memcpy(LFN_W(pChild), LFN_W(pParent), (pALN->nDim + 1) * sizeof(double));
         memcpy(LFN_C(pChild), LFN_C(pParent), pALN->nDim * sizeof(double));
         memcpy(LFN_D(pChild), LFN_D(pParent), pALN->nDim * sizeof(double));
-        memcpy(LFN_P(pChild), LFN_P(pParent), pALN->nDim * sizeof(double)); // added 2009.12.25
         // shift LFN up or down depending on parent minmax type
 				// the shifts are different but close so the two children differentiate
 				// and the combined effect is not to change the value of the single LFN
-				// New: we forgot to change the centroid by the same amount
-				// Problem corrected March 15, 2001 WWA
         double dblSE = pALN->aRegions[pChild->nParentRegion].dblSmoothEpsilon;
 				int nOutput = pALN->nOutput;
 				double dblChange;
@@ -459,7 +437,7 @@ ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent,
         memset(LFN_W(pChild), 0, (pALN->nDim + 1) * sizeof(double));
         memset(LFN_C(pChild), 0, pALN->nDim * sizeof(double));
         memset(LFN_D(pChild), 0, pALN->nDim * sizeof(double));
-        memset(LFN_P(pChild), 0, pALN->nDim * sizeof(double));      }
+      }
 
       
     }
@@ -480,7 +458,6 @@ ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent,
           if (LFN_W(pChild)) free(LFN_W(pChild));
           if (LFN_C(pChild)) free(LFN_C(pChild));
           if (LFN_D(pChild)) free(LFN_D(pChild));
-          if (LFN_P(pChild)) free(LFN_P(pChild));          
           free(pChild);
           pChild = NULL;
         }
@@ -502,7 +479,7 @@ ALNIMP int ALNAPI ALNAddLFNs(ALN* pALN, ALNNODE* pParent,
   if (LFN_W(pParent)) free(LFN_W(pParent));
   if (LFN_C(pParent)) free(LFN_C(pParent));
   if (LFN_D(pParent)) free(LFN_D(pParent));
-  if (LFN_P(pParent)) free(LFN_P(pParent));
+ 
   // convert node type
   pParent->fNode &= ~NF_LFN;
   pParent->fNode |= NF_MINMAX | nParentMinMaxType;

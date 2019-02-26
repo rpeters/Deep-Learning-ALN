@@ -1,5 +1,5 @@
 // ALN Library (libaln)
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // file: alnintern.h
 //
 // This library is free software; you can redistribute it and/or
@@ -18,75 +18,49 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 
-// Functions used only internally
-void splitcontrol(CMyAln*, double); // if average validation error of a piece is high, splitting is prevented
-void dosplitcontrol(CMyAln*, ALNNODE*, double); //does the recursion of splitcontrol
-void dozerospliterror(CMyAln*, ALNNODE*);  // sets the square error to zero in each LFN
-void spliterrorsetTR(CMyAln*); // accumulates the training square error and number of hits on each linear piece
-void spliterrorsetVL(CMyAln*); // accumulates the validation square error and number of hits on each linear piece
-void dodivideTR(CMyAln*, ALNNODE*); // divides the total square training set errors of the pieces by their hit count
-void dodivideVL(CMyAln*, ALNNODE*); // divides the total square validation errors of the pieces by their hit count
+// Functions
+void splitControl(ALN*, double); // if average noise variance of a piece is higher
+			// than the square training error, splitting is prevented
+void doSplits(ALN*, ALNNODE*, double); //does the recursion of splitcontrol
+void zeroSplitValues(ALN*, ALNNODE*);  // sets the square error to zero in each LFN
+void splitUpdateValues(ALN*); // accumulates the training square error and number of hits on each linear piece
+void splitNoiseSetVAR(ALN*); // accumulates the variance square error and number of hits on each linear piece
+void dodivideTR(ALN*, ALNNODE*); // divides the total square training set errors of the pieces by their hit count
+void dodivideVAR(ALN*, ALNNODE*); // divides the sum of noise variance samples of the pieces by their respective hit counts
 
-// thread procedures
+// Thread procedures
 UINT TakeActionProc(LPVOID pParam);  // separate thread
 
-
-//global variables used only internally
-
-extern CMyAln** apALN;       // an array of pointers to ALNs
-//extern CMyAln** apValALN;    // an array of pointers to ALNs to be used on the validation set
-//extern static CMyAln* pAvgALN;      // an ALN representing the bagged average
-extern BOOL bTrainingAverage;// Switch to tell fillvector whether get a training vector or compute an average
-extern int nNumberEpochs;
-extern int nNumberLFNs;  // used to control the epoch size, which should be proportional to this
-//extern static char szVarName[100][3];
-//int nColsUniv = 0;
-//long nRowsUniv = 0;
-extern int nColsAuxValidation;
-extern int nColsAuxTest;
-extern long nRowsTR; // size of training file
-extern long nRowsVL; // size of validation file
-extern BOOL bDecimal; // means numbers could have a decimal point
-extern BOOL bComma;   // means numbers could have a comma
-extern int nDim;
-extern int nOutputIndex;
+//Global variables
+extern BOOL bTrainingAverage; // Switch to tell fillvector whether get a training vector or compute an average
+extern int nNumberLFNs;				// used to control the epoch size, which should be proportional to this
+extern BOOL bDecimal;					// Numbers could have a decimal point (as in North America).
+extern BOOL bComma;						// Numbers could have a comma (as in Europe).
+extern int nDim;							// Number of ALN inputs plus one for the output.
+extern int nOutputIndex;			// Usually nDim - 1. A change of output of an ALN
+			// occurs for the inverse ALN when the ALN output is monotonic in an input.
 extern long nRowsPP;          // The number of rows in the PreprocessedDataFile
-extern long nRowsTV;          // The number of rows in the TVfile (Training & Validation File)
-extern double* adblEpsilon;         // An array of doubles holding the tolerances of the inputs.
-extern double* adblMinVar;          // Array of minima of the variables
-extern double* adblMaxVar;          // Array of maxima of the variables
-extern double* adblStdevVar;        // Standard deviations of the variables
-extern double  dblTrainErr;         // Set in cmyaln.h at the end of training
-extern double  dblLinRegErr;        // The error of linear regression for use in upper-bounding output tolerance
+extern long nRowsTV;          // Number of rows in the TVfile (used to create TRfile, NVfile).
+extern double* adblEpsilon;   // An array of doubles holding the average distance between inputs.
+extern double* adblMinVar;    // Array of minima of the variables
+extern double* adblMaxVar;    // Array of maxima of the variables
+extern double* adblStdevVar;  // Standard deviations of the variables
+extern double  dblTrainErr;   // Set in cmyaln.h at the end of training
+extern double  dblLinRegErr;  // The error of linear regression for use in upper-bounding output tolerance
+extern double* adblLRW;				// stores an ALN weight approximation from linear regression
+extern double* adblLRC;				// ditto for centroids
 
+// Files
+extern FILE *fpData;									// The data file which contains all data.
+extern FILE *fpProtocol;							// The file to record the results of the experiment. Rename to save.
+			// IMPORTANT: You can open this file several times to see how training is going. 
+extern FILE *fpReplacement;						// A file containing replaced missing values.
+extern CDataFile UNfile;							// copy of the data file, but with missing values replaced by special number
+extern CDataFile PreprocessedDataFile;// The preprocessed file created from the Universal file
+extern CDataFile TVfile;							// The file now used for all training sets.
+			//The software should be changed to allow any file to be used for training.
 
-// Files used only internally
-extern FILE *fpData;                 // The data file which contains all data.
-extern FILE *fpProtocol;             // the file to record the results of the experiment. Rename to save.
-//FILE *fpOutput = NULL;             // the output data file resulting from evaluation (now in ALNfit.cpp)
-extern FILE *fpReplacement;
-extern CDataFile UNfile;             // copy of the data file, but with missing values replaced by special number
-extern CDataFile PreprocessedDataFile;             // The preprocessed file created from the Universal file
-extern CDataFile TVfile;             // The file used for training and, if no separate file is given, for validation, with nDim columns and nRowsUniv - nRowsALNinputTestFile rows.
-extern CDataFile TRfile;             // Training file.  This file is setup separately for each ALN to implement bagging
-
-extern double* adblLRW; // stores an ALN weight approximation from linear regression
-extern double* adblLRC; // ditto for centroids
-
-// this typedef allows a cast within ALNfit Pro of ALNLFNSPLIT in aln.h which uses
-// the variables in a different way than in the Dendronic Learning Engine SDK
-// when a comparison between the average errors on training and validation sets
-// is needed to decide whether or not to allow splitting of the hyperplane
-/*typedef struct tagSPLIT      // Used in inhibiting splitting -- must be zeroed before and after use
-{
-  int nCount;                // Number of hits
-  double dblSqErrorTrain;    // Squared error of a piece during training                      
-  double dblSqErrorVal;      // Squared error of a piece during validation
-  double dblT_NotUsed;			 // Used in the SDK only
-} SPLIT;
-*/

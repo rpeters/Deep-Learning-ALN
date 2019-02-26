@@ -1,6 +1,6 @@
 // ALNfitDeepView.cpp : implementation of the CALNfitDeepView class
 //
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
 
 
 
-#include <aln.h>
+#include "aln.h"
 #include "alnpp.h"
 #include "cmyaln.h"
 
@@ -47,6 +47,7 @@ static char THIS_FILE[] = __FILE__;
 #include <datafile.h>
 #include "alnextern.h"
 
+extern CMyAln * pALN;
 
 #define INPUTDEC      0
 #define INPUT         1
@@ -329,55 +330,7 @@ void CALNfitDeepView::OnButtonStart()
   // start has been clicked, so we have the ALN variables defined
   // we can construct the files for training and testing that get input values
   // from various columns at various delays.
-	if (m_nTrain == 0)
-	{
-		if(nPercentForTest > 0)
-		{
-			ALNinputTestFile.Destroy(); // make sure this is deleted before making a new one 
-			ALNinputTestFile.Create(nRowsNumericalTestFile, nALNinputs);
-			/*
-			for (i = 0; i < nRowsNumericalTestFile; i++)
-			{
-				for (int j = 0; j < nALNinputs; j++)  // the output column may be left as zeros
-				{
-					double dblVal;
-					dblVal = PreprocessedDataFile.GetAt(i, j, 0);
-					ALNinputTestFile.SetAt(i, j, dblVal, 0);
-				}
-			}
-			*/  //  WHERE DO WE FILL THE TEST FILE?
-
-
-			MakeAuxALNinputFile(NumericalTestFile, ALNinputTestFile, nRowsNumericalTestFile, &nRowsALNinputTestFile);
-			// write out the results to check
-			if (bPrint && bDiagnostics)
-			{
-				ALNinputTestFile.Write("DiagnoseALNinputTestFile.txt");
-				fprintf(fpFileSetupProtocol, "DiagnoseALNinputTestFile.txt written\n");
-			}
-			if (bPrint)fflush(fpFileSetupProtocol);
-		}
-	}
-  if(m_nTrain == 0) // changed to remove the separate validation file possibility
-  {
-    ALNinputValFile.Destroy(); // make sure this is deleted before making a new one 
-    if(bEstimateRMSError)
-    {
-      ALNinputValFile.Create(nRowsNumericalValFile,nALNinputs);
-      MakeAuxALNinputFile(NumericalValFile, ALNinputValFile, nRowsNumericalValFile, &nRowsALNinputValFile);
-			if (bPrint && bDiagnostics)    // write out the results to check
-			{
-				ALNinputValFile.Write("DiagnoseALNinputValFile.txt");
-				fprintf(fpFileSetupProtocol, "DiagnoseALNinputValFile.txt written\n");
-			}
-    }
-    else
-    {
-      // we set the tolerance directly without RMS noise stimation
-  	  if(bPrint && bDiagnostics) fprintf(fpFileSetupProtocol,"ALNinputValFile.txt was NOT created -- tolerance set directly in options.\n");
-    }
-		fflush(fpFileSetupProtocol);
-  }
+  
   nALNs = pDoc->m_nALNs;
   // set up the naming convention for the output files
   CTime theTime = CTime::GetCurrentTime();
@@ -597,7 +550,7 @@ void CALNfitDeepView::OnButtonData()
 	      int nheaderlines = 0;
         long nrows = 0;
         int ncols = 0;
-	      if(!analyzeinputfile((char *) LPCTSTR(m_strDataFileName), &nheaderlines, &nrows, &ncols,TRUE))
+	      if(!analyzeInputFile((char *) LPCTSTR(m_strDataFileName), &nheaderlines, &nrows, &ncols,TRUE))
 	      {
           MessageBox("Stopping: Input file analysis failed");
 		      exit(0);
@@ -763,21 +716,20 @@ void CALNfitDeepView::OnButtonHelp()
 3. In the latter case, use the Previous and Next connection buttons to get to the original connection to the the desired output column and Remove that connection as an input. Also Remove columns which are constant or useless (e.g. sample numbers).\n\
 4. Click the start button, save the .fit file for later use on new data files and wait for output.  The files belonging to the same run have the same time prefix. Examine the ... TrainProtocol.txt file, noting the estimated RMS noise level for future use.\n\
 4. The ALN-estimated output is in the right-hand column in the ...E.txt output file, which extends the data file on the right.\n\
-5. The Scatterplot output file is like the E file, but is based on the test set. Use a spreadsheet to make a scatterplot of the two rightmost columns.\n\
+5. The Scatterplot output file is like the E file, but is for the test set. Use a spreadsheet to make a scatterplot of the two rightmost columns.\n\
 \n\
    Additional things to try:\n\
-A. The tolerance is the RMS error level below which a flat piece won't split into two. It is set to the estimated RMS noise level to control overtraining by limiting tree growth. Use the Processing options dialog to set it.\n\
+A. The tolerance (options dialog) used to be the constant RMS error level below which a flat piece won't split into two. It is now not used since the noise variance need not be constant. It is determined using estimates of noise variance.\n\
 B. You can maybe improve results on new data sets by averaging over more ALNs (bagging up to 10).\n\
 C. You can use an earlier setup by opening a .fit file (menu Open). Then choose a data file from the same source. Click Start to evaluate the new file using the previous training.\n\
-D. If you want to classify samples into two classes (with IDs 0 and 1 as output), skip noise estimation in the Options dialog, accepting the tolerance value shown.\n\
+D. This program is not optimized for classification, which is done by regression with integer outputs. If you try it, it may work.\n\
 E. If the data samples are a time series, you can select appropriate columns and lags for multiple time series analysis.\n\
 F. If you don't know which connections are useful for computing a certain output, remove some connections with the lowest importance values after training. \n\
-G. If the ideal function to be learned must be monotonic in some input variable(s), move to that connection and enter the constraint which is shown by a slash or backslash.\
-More generally, enter a known bound on the rate of change of the ideal function with respect to any input variable (connection) as a weight (i.e. partial derivative) constraint.\n\
-H. From a set of samples (rows of the data file), a percentage specified in Processing options will be removed and half of the rest will be used for determining the noise level)\
-If you don't have enough samples, set 0% for test, estimate the RMS noise in the data in a run, then do another run with that level set. In a third run, test on all your samples. (The RMS error rate is overly optimistic)\n\
+G. If theory says the function to be learned must be monotonic in some input variable(s), move to that connection and enter the constraint which is shown by a slash or backslash.\
+More generally, enter a known bound on the rate of change with respect to any input variable (connection) as a weight (i.e. partial derivative) constraint.\n\
+H. From the set of samples (rows of the data file), a percentage specified in Processing options will be removed for testing.  All of the rest will be used for determining the noise level and training.\n\
 I. If there are missing values in some column of the the data, represent them by 99999 or -9999 and train on some columns without missing values to replace them by ALN-computed values in the R output file. (Options dialog check Replace) Browse to the R file as the data file to replace missing values another column.\n\
-J. Smoothing allows fewer flat pieces to be used to fit a function to a given accuracy.  It allows analysis of the learned function.  Specify the option of zero smoothing to greatly increase speed and allow DEEP LEARNING with an ALN of many layers.\n\
+J. Smoothing with quadratic fillets allows fewer flat pieces to be used to fit a function to a given accuracy. This program uses the option of zero smoothing to greatly increase speed and allow DEEP LEARNING with an ALN of many layers.\n\
 K. To check linear regression and stats using ALNfitDeep, look at the How to .. spreadsheet in the libaln\\samples\\realestate folder.");
 }
 
@@ -856,54 +808,43 @@ UINT ActionsProc(LPVOID pParam)  // the actions thread
     // The view calls the real handler in the doc
     PassBackStatus(0,5);
     PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
-    //analyzeTV();
     if(bClassify)
     {
-      fprintf(fpProtocol, "\n**************  The problem is to classify samples into two or, with\
-some limitations, into more classes  *****\n");
+      fprintf(fpProtocol, "\n**************  The problem is to classify samples into two or a few classes  *****\n");
     }
     else
     {
-      fprintf(fpProtocol, "\n**************  The problem is to fit samples of a smooth function  *****\n");
+      fprintf(fpProtocol, "\n**************  The problem is to fit samples with a smooth function  *****\n");
     }
     fflush(fpProtocol);
-    if(bEstimateRMSError)  // We are doing RMS Error estimation (works also with two-class classification)
+    if(bEstimateNoiseVariance)  // We are doing RMS Error estimation (works also with two-class classification)
     {
-      // We do the following if we are doing regression and estimating RMS noise
-			// Noise estimation may work for two classes, but for more classes, it depends on which classes are close to one-another
-			fprintf(fpProtocol, "Linear regression and overfitting an ALN being used to estimate RMS noise.\n");
+      // We do the following if we are doing regression and estimating noise variance.
+			// Noise estimation may work for classification, but more study is required.
       PassBackStatus(1,10);  
       PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
-      dolinearregression();
+			doLinearRegression();
       PassBackStatus(2,15);  
       ::PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
-      onealnfit(); // at this point, we have an estimate of noise and a tolerance value
-			fprintf(fpProtocol, "Tolerance (desired RMS error on training set) has been estimated and is %f\n", dblTolerance);
-    }
-    else // we are not doing error estimation but getting tolerance by setting it directly
-    {
-			fprintf(fpProtocol, "Linear regression and overfitting an ALN to do RMS  noise estimation are skipped.\n");
-      // for regression, when we skip validation we use the tolerance from the options dialog
-      dblTolerance = dblSetTolerance;
-			fprintf(fpProtocol, "Tolerance (desired RMS error on training set) is set directly and is %f\n", dblTolerance);
-    }
-		fflush(fpProtocol);
+			createNoiseVarianceFile();
+			//trainNoiseVarianceALN();
+		}
     PassBackStatus(3,30);  
     ::PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
-    approximate();
+		approximate();
     PassBackStatus(7,75);   
     ::PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
-    outputtrainingresults();
+    outputTrainingResults();
     PassBackStatus(4,80);  
     ::PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
-    trainaverage();
+    trainAverage();
     PassBackStatus(5,85);  
     ::PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
     constructDTREE(nDTREEDepth);
   } //end of actions for training
 
   // continue with actions for evaluation
-  if(!bTrain || nPercentForTest >= 0)
+  if(!bTrain || nPercentForTest >= 1)
   {
     PassBackStatus(6,90);  
     ::PostMessage((HWND) pParam, WM_UPDATESCREEN,0,0);
@@ -1447,19 +1388,18 @@ void CALNfitDeepView::OnButtonoptions()
 			if (dlg.m_nEstimateRMSError == 1)
 			{
 				// we have highlighted the radiobutton to set the tolerance without
-				// using a validation set, we convert the field to a double and
+				// using a variance set, we convert the field to a double and
 				// transmit that to the doc and its global variable
 				pDoc->m_dblSetTolerance = dblSetTolerance = atof(LPCTSTR(dlg.m_strSetTolerance));
-				bEstimateRMSError = FALSE;
+				bEstimateNoiseVariance = FALSE;
 			}
 			else
 			{
 				// the tolerance will be set by estimating RMS noise
-				bEstimateRMSError = TRUE;
+				bEstimateNoiseVariance = TRUE;
 			}
 			
 			pDoc->m_nZeroSmoothing = dlg.m_nZeroSmoothing;
-			dblSmoothingFraction = (dlg.m_nZeroSmoothing == 0) ? 0.0 : 0.5;
 			pDoc->m_nNoJitter = dlg.m_nNoJitter;
 			bJitter = (dlg.m_nNoJitter == 0) ? FALSE : TRUE;
 			pDoc->m_nDTREEDepth = nDTREEDepth = dlg.m_nDTREEDepth;

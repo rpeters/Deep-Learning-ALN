@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,13 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // alloccolumnbase.cpp
 
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/alloccolumnbase.cpp $
-//  $Workfile: alloccolumnbase.cpp $
-//  $Revision: 5 $
-//  $Date: 7/17/07 5:08p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
+//  libaln/src/alloccolumnbase.cpp $
+//  Date: October 24, 2018
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -56,6 +47,10 @@ const double** ALNAPI AllocColumnBase(int nStart,
   int nDim = pALN->nDim;
   int nCols = pDataInfo->nCols;
   const VARINFO* aVarInfo = pDataInfo->aVarInfo;
+	// aVarInfo tells which column of the training file has the i-th ALN input in it and how much
+	// it is time-shifted (nDelta).
+	// This is a different approach from ours where the file is processed to put all the inputs
+	// in the same row.
   const double* adblData = pDataInfo->adblData;
 
   const double** apdblBase = NULL;

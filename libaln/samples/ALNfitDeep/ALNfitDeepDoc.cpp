@@ -1,6 +1,6 @@
 // ALNfitDeepDoc.cpp : implementation of the CALNfitDeepDoc class
 //
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -34,16 +34,16 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define		MESSAGE0  "Analyzing training/validation file"
-#define		MESSAGE1  "Using linear regression to find an upper bound on noise"
-#define		MESSAGE2  "Over-training a single ALN to estimate the noise in the training/validation file"
-#define		MESSAGE3  "Training one or more ALNs using the noise estimate to guide ALN growth"
-#define		MESSAGE4  "Training a new ALN with samples of the average of the trained ALNs"
+#define		MESSAGE0  "Analyzing the data file"
+#define		MESSAGE1  "Doing linear regression to find some useful starting values."
+#define		MESSAGE2  "Creating noise variance samples; training an ALN on the noise variance."
+#define		MESSAGE3  "Training ALNs using the noise variance function to prevent overtraining."
+#define		MESSAGE4  "Bagging: training an ALN on samples of the average of several trained ALNs"
 #define		MESSAGE5  "Constructing a DTREE from the average ALN and writing the .dtr file "
 #define		MESSAGE6  "Loading and evaluating the DTREE on the test data file"
-#define		MESSAGE7  "Determining importance of input variables using TV file and the trained ALNs"
+#define		MESSAGE7  "Determining importance of input variables using the trained ALNs"
 #define		MESSAGE8  "Please enter parameters for a run above; then click on Start"
-#define		MESSAGE9  "Finished. Please examine ..Protocol.. and ..Output.. text files for results."
+#define		MESSAGE9  "Finished. Please examine TrainProtocol and Output text files for results."
 #define   MESSAGE10  "Opened.fit file."
 #define   MESSAGE11  "Please save the current parameters to a .fit file, choose new ones, or exit."
 #define   MESSAGE12  "Opened setup file. IMPORTANT: Now browse to a data file like the one above."
@@ -99,10 +99,10 @@ void CALNfitDeepDoc::GenerateReportString()
 	const int nMessageCount = 14;
 	const char * apMessages[nMessageCount] = 
 	{
-		MESSAGE0,  //"Analyzing training/validation file",
-		MESSAGE1,  //"Using linear regression to find an upper bound on noise",
-		MESSAGE2,  //"Over-training a single ALN to estimate the noise in the training/validation file",
-		MESSAGE3,  //"Training one or more ALNs using the noise estimate to guide ALN growth",
+		MESSAGE0,  //"Analyzing data files",
+		MESSAGE1,  //"Using linear regression to support further training",
+		MESSAGE2,  //"Creating noise variance samples and training an ALN on their logarithms",
+		MESSAGE3,  //"Training one or more ALNs using the noise variance samples to guide ALN growth",
 		MESSAGE4,  //"Training a new ALN with samples of the average of the trained ALNs",
 		MESSAGE5,  //"Constructing a DTREE from the average ALN and writing the .dtr file ",
 		MESSAGE6,  //"Loading and evaluating the DTREE on the test data file",
@@ -133,7 +133,7 @@ BOOL CALNfitDeepDoc::OnNewDocument()
 	m_strDataFileName = "";
 	m_nFit = 0;   // 0 indicates regression, 1 classification
 	m_nTrain = 0; // 0 indicates training, 1 evaluation
-	m_nALNs = 7;  // default
+	m_nALNs = 1;  // default
 	m_nMessage = 8; // asks to set up parameters then click on Start
   GenerateReportString();
 	CString m_strProtocolFileName = "";   // set up by start button
@@ -245,7 +245,7 @@ void CALNfitDeepDoc::DeleteContents()
 	m_strReport = "";
 	m_nFit = 0;   // 0 indicates regression, 1 classification
 	m_nTrain = 0; // 0 indicates training, 1 evaluation
-	m_nALNs = 7;  // default
+	m_nALNs = 1;  // default
 	m_nMessage = 0; // asks to set up parameters then click on Start
 	m_nPercentProgress = 0; // integer value for progress indicator
   m_nColsUniv = 101;
@@ -532,7 +532,7 @@ void CALNfitDeepDoc::EditClearall()
 { 
  	m_strDataFileName = ".txt";
 	m_strDTREEFileName = ".dtr";
-	m_nALNs = 7;
+	m_nALNs = 1;
 	m_nFit = 0;
 	m_nTrain = 0;
 	m_nMessage = 8;

@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,21 +17,9 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 // alnpriv.h
-
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/include/alnpriv.h $
-//  $Workfile: alnpriv.h $
-//  $Revision: 27 $
-//  $Date: 10/28/07 1:36p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __ALNPRIV_H__
 #define __ALNPRIV_H__
@@ -66,7 +54,7 @@ extern "C" {
 
 // id string
 static char szIDString[] = "ALN Library "
-                           "Copyright (C) 1995 -2010 William W. Armstrong "
+                           "Copyright (C) 2018 William W. Armstrong "
                            "See source code for LGPL license";
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,7 +163,7 @@ void ALNAPI DebugValidateALNDataInfo(const ALN* pALN,
 
 
 // calculate start and end points of data set given varinfo deltas
-void ALNAPI CalcDataEndPoints(int& nStart, int& nEnd, 
+void ALNAPI CalcDataEndPoints(long& nStart, long& nEnd, 
                               const ALN* pALN,
                               const ALNDATAINFO* pDataInfo);
 
@@ -430,8 +418,8 @@ inline void Adapt(ALNNODE* pNode, ALN* pALN, const double* adblX,
 // split routines
 int ALNAPI SplitLFN(ALN* pALN, ALNNODE* pNode);
 
-// find a good LFN to split
-ALNNODE* ALNAPI FindSplitLFN(ALN* pALN);
+// find LFNs to split according to number of points on them and the F-test
+void ALNAPI FindSplitLFN(ALN* pALN);
 
 
 ///////////////////////////////////////////////////////////////////////////////

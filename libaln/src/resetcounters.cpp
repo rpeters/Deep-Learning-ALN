@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,21 +17,10 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 // resetcounters.cpp
 
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/resetcounters.cpp $
-//  $Workfile: resetcounters.cpp $
-//  $Revision: 8 $
-//  $Date: 8/18/07 4:27p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -48,12 +37,11 @@ static char THIS_FILE[] = __FILE__;
 ///////////////////////////////////////////////////////////////////////////////
 // used to reset resp counters, eval flags, and other stats during training
 
-void ALNAPI ResetCounters(ALNNODE* pNode, ALN* pALN, 
-                          BOOL bMarkAsUseful /*= FALSE*/)
+void ALNAPI ResetCounters(ALNNODE* pNode, ALN* pALN,BOOL bMarkAsUseful /*= FALSE*/) //routine
 {
   ASSERT(pALN != NULL);
   ASSERT(pNode != NULL);
-
+/* old version, which may no longer be what is needed
   // reset resp count, but save old value
   int nRespCount = NODE_RESPCOUNT(pNode);
   NODE_RESPCOUNT(pNode) = 0;
@@ -62,13 +50,16 @@ void ALNAPI ResetCounters(ALNNODE* pNode, ALN* pALN,
 	if (bMarkAsUseful)
   {
 		NODE_RESPCOUNTLASTEPOCH(pNode) = pALN->nDim; 
+		// a node is "useless" if it doesn't have enough training point hits per epoch to define any leaf on its subtree
     ASSERT(!NODE_ISUSELESS(pNode, pALN->nDim));
   }
 	else
   {
 		NODE_RESPCOUNTLASTEPOCH(pNode) = nRespCount;
   }
-
+	the top line below is the version I understand
+	*/
+	NODE_RESPCOUNT(pNode) = 0;
   if (NODE_ISMINMAX(pNode))
   {
   	// iterate over children

@@ -26,23 +26,23 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT DLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MT|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <UseOfAtl>Static</UseOfAtl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MT DLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -92,7 +92,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:/Boost/boost_1_60_0;C:\Eigen\eigen-eigen-07105f7124f9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_MT;_DLL;_AFXDLL;WIN32;_WINDOWS;ALN_NOFORCE_LIBS;LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -104,6 +104,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PrecompiledHeaderFile />
+      <SupportJustMyCode>true</SupportJustMyCode>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x1009</Culture>
@@ -111,7 +112,7 @@
     <Lib>
       <OutputFile>.\lib\libalndmt.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>C:/Boost/boost_1_60_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:/Boost/boost_1_68_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -121,7 +122,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:/Boost/boost_1_60_0;C:\Eigen\eigen-eigen-07105f7124f9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_MT;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS;ALN_NOFORCE_LIBS;LITTLE_ENDIAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -134,6 +135,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
+      <SupportJustMyCode>true</SupportJustMyCode>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x1009</Culture>
@@ -143,7 +145,7 @@
     </ProjectReference>
     <Lib>
       <OutputFile>.\lib\libalnmtd.lib</OutputFile>
-      <AdditionalLibraryDirectories>C:/Boost/boost_1_60_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:/Boost/boost_1_68_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>libc.lib;libcd.lib;libcmt.lib;msvcrt.lib;nafxcw.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -157,8 +159,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:/Boost/boost_1_60_0;C:\Eigen\eigen-eigen-07105f7124f9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_MT;WIN32;_WINDOWS;ALN_NOFORCE_LIBS;_CRT_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS;LITTLE_ENDIAN;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_MT;WIN32;_WINDOWS;ALN_NOFORCE_LIBS;_CRT_SECURE_NO_WARNINGS;LITTLE_ENDIAN;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -169,13 +171,14 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PrecompiledHeaderFile />
+      <SupportJustMyCode>true</SupportJustMyCode>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x1009</Culture>
     </ResourceCompile>
     <Lib>
       <OutputFile>.\lib\libalnmt.lib</OutputFile>
-      <AdditionalLibraryDirectories>C:/Boost/boost_1_60_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:/Boost/boost_1_68_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>libc.lib;libcd.lib;libcmtd.lib;msvcrtd.lib;nafxcwd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -188,7 +191,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT DLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:/Boost/boost_1_60_0;C:\Eigen\eigen-eigen-07105f7124f9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\dtree\32bit\inc;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_MT;_DLL;_AFXDLL;WIN32;_WINDOWS;ALN_NOFORCE_LIBS;LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader />
@@ -199,6 +202,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PrecompiledHeaderFile />
+      <SupportJustMyCode>true</SupportJustMyCode>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x1009</Culture>
@@ -206,7 +210,7 @@
     <Lib>
       <OutputFile>.\lib\libalndmtd.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>C:/Boost/boost_1_60_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:/Boost/boost_1_68_0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -259,14 +263,12 @@
     <ClCompile Include="..\src\dtree\dtr_mem.c" />
     <ClCompile Include="..\src\evaltree.cpp" />
     <ClCompile Include="..\src\fillinputvector.cpp" />
-    <ClCompile Include="..\src\findsplitlfn.cpp" />
     <ClCompile Include="..\src\freecolumnbase.cpp" />
     <ClCompile Include="..\src\getvarconstraint.cpp" />
     <ClCompile Include="..\src\initlfns.cpp" />
     <ClCompile Include="..\src\jitter.cpp" />
     <ClCompile Include="..\src\plimit.cpp" />
     <ClCompile Include="..\src\prepaln.cpp" />
-    <ClCompile Include="..\src\resetcounters.cpp" />
     <ClCompile Include="..\src\shuffle.cpp" />
     <ClCompile Include="..\src\splitlfn.cpp" />
     <ClCompile Include="..\src\split_ops.cpp" />
@@ -289,7 +291,7 @@
     <ClInclude Include="..\include\cmyaln.h" />
     <ClInclude Include="..\include\datafile.h" />
     <ClInclude Include="..\include\dtree.h" />
-    <ClInclude Include="..\include\StdAfx.h" />
+    <ClInclude Include="..\include\targetver.h" />
     <ClInclude Include="..\src\dtree\DTR_PRIV.H" />
   </ItemGroup>
   <ItemGroup>

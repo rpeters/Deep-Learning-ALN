@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug MT DLL|Win32">
       <Configuration>Debug MT DLL</Configuration>
@@ -22,31 +22,31 @@
     <ProjectGuid>{81F30868-CE4B-4997-B65E-55F17B7A4A85}</ProjectGuid>
     <RootNamespace>ALNfitDeep</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>ALNfitDeep</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MT DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>Dynamic</UseOfMfc>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>Dynamic</UseOfMfc>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MT|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>Static</UseOfMfc>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>Static</UseOfMfc>
     <CLRSupport>false</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,33 +71,33 @@
     <_ProjectFileVersion>14.0.24720.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT|Win32'">
-    <OutDir>..\samples\ALNfitDeep\Debug\</OutDir>
     <IntDir>.\ALNfitDeep\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ALNfitDeepDebug</TargetName>
+    <OutDir>..\samples\ALNfitDeep\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MT|Win32'">
-    <OutDir>..\samples\ALNfitDeep\Release\</OutDir>
     <IntDir>.\ALNfitDeep\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ALNfitDeep</TargetName>
+    <OutDir>..\samples\ALNfitDeep\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT DLL|Win32'">
-    <OutDir>..\samples\ALNfitDeep\DebugDLL\</OutDir>
     <IntDir>.\ALNfitDeep\</IntDir>
     <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ALNfitDeepDebugDLL</TargetName>
+    <OutDir>..\samples\ALNfitDeep\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MT DLL|Win32'">
-    <OutDir>..\samples\ALNfitDeep\ReleaseDLL\</OutDir>
     <IntDir>.\ALNfitDeep\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ALNfitDeepDLL</TargetName>
+    <OutDir>..\samples\ALNfitDeep\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release MT DLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINVER=0x0A00;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -110,6 +110,9 @@
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/FS</AdditionalOptions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <MinimalRebuild>true</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>.\lib\libalndmt.lib;.\lib\libalnppdmt.lib</AdditionalDependencies>
@@ -123,7 +126,7 @@
       <StackReserveSize>0</StackReserveSize>
       <StackCommitSize>0</StackCommitSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>,\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Boost\boost_1_68_0;.\lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <EnableUAC>false</EnableUAC>
       <GenerateDebugInformation>No</GenerateDebugInformation>
@@ -143,7 +146,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release MT|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINVER=0x0A00</PreprocessorDefinitions>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <WarningLevel>Level1</WarningLevel>
@@ -158,6 +161,9 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/FS</AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <MinimalRebuild>true</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>.\lib\libalnmt.lib;.\lib\libalnppmt.lib</AdditionalDependencies>
@@ -171,7 +177,7 @@
       <StackReserveSize>0</StackReserveSize>
       <StackCommitSize>0</StackCommitSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>,\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Boost\boost_1_68_0;.\lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <ImportLibrary>
       </ImportLibrary>
@@ -194,7 +200,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINVER=0x0A00;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -208,6 +214,9 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/FS</AdditionalOptions>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>.\lib\libalnmtd.lib;.\lib\libalnppmtd.lib</AdditionalDependencies>
@@ -221,7 +230,7 @@
       <StackReserveSize>0</StackReserveSize>
       <StackCommitSize>0</StackCommitSize>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>,\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Boost\boost_1_68_0;.\lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <EnableUAC>false</EnableUAC>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
@@ -241,7 +250,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug MT DLL|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;C:\Boost\boost_1_68_0;C:\Eigen\eigen-eigen-b3f3d4950030</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINVER=0x0A00;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <WarningLevel>Level1</WarningLevel>
@@ -255,6 +264,9 @@
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/FS</AdditionalOptions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <MinimalRebuild>true</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>.\lib\libalndmtd.lib;.\lib\libalnppdmtd.lib</AdditionalDependencies>
@@ -269,7 +281,7 @@
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <TreatLinkerWarningAsErrors>false</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>,\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Boost\boost_1_68_0;.\lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <EnableUAC>false</EnableUAC>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
@@ -288,6 +300,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\include\alnextern.h" />
+    <ClInclude Include="..\include\targetver.h" />
     <ClInclude Include="..\samples\ALNfitDeep\ALNfitDeep.h" />
     <ClInclude Include="..\samples\ALNfitDeep\ALNfitDeepDoc.h" />
     <ClInclude Include="..\samples\ALNfitDeep\ALNfitDeepView.h" />

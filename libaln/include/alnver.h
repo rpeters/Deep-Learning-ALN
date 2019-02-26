@@ -1,7 +1,7 @@
 /*
 // ALN Library
-// Dendronic Learning Engine for approximation of functions defined by samples.
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// ALNfit Learning Engine for approximation of functions defined by samples.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -19,23 +19,11 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // alnver.h
 */
-
-/*///////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/include/alnver.h $
-//  $Workfile: alnver.h $
-//  $Revision: 13 $
-//  $Date: 7/18/07 12:03p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////*/
 
 
 #ifndef __ALNVER_H__

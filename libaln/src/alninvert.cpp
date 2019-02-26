@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,10 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // alninvert.cpp
-
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/alninvert.cpp $
-//  $Workfile: alninvert.cpp $
-//  $Revision: 10 $
-//  $Date: 8/18/07 4:27p $
-//  $Authors: Monroe Thomas, William W. Armstrong $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -54,7 +42,7 @@ void InvertConstraints(ALN* pALN, int nVar);
 
 ALNIMP int ALNAPI ALNInvert(ALN* pALN, int nVar)
 {
-  // parameter validation
+  // parameter variance
   if (pALN == NULL)
     return ALN_GENERIC;
 

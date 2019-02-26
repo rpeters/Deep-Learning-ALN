@@ -1,5 +1,5 @@
 // ALN Library
-// Copyright (C) 1995 - 2010 William W. Armstrong.
+// Copyright (C) 2018 William W. Armstrong.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,23 +17,12 @@
 // 
 // For further information contact 
 // William W. Armstrong
-
 // 3624 - 108 Street NW
 // Edmonton, Alberta, Canada  T6J 1B4
 
 // evaltree.cpp
 // eval support routines
 
-///////////////////////////////////////////////////////////////////////////////
-//  File version info:
-// 
-//  $Archive: /ALN Development/libaln/src/evaltree.cpp $
-//  $Workfile: evaltree.cpp $
-//  $Revision: 5 $
-//  $Date: 8/18/07 2:51p $
-//  $Author: Arms $
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #ifdef ALNDLL
 #define ALNIMP __declspec(dllexport)
@@ -82,7 +71,7 @@ int ALNAPI EvalTree(const ALNNODE* pNode,
   int nPoints = pDataInfo->nPoints;
 
   // calc start and end points
-  int nStart, nEnd; 
+  long nStart, nEnd; 
   CalcDataEndPoints(nStart, nEnd, pALN, pDataInfo);
   
   if (pnStart != NULL)
